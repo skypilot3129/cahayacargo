@@ -1,0 +1,115 @@
+.footer {
+    background: var(--color-gray-900);
+    color: var(--color-gray-300);
+    padding: var(--space-16) 0 var(--space-8);
+    margin-top: var(--space-20);
+}
+
+.footerGrid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-12);
+    margin-bottom: var(--space-12);
+}
+
+.footerSection h3,
+.footerSection h4 {
+    margin-bottom: var(--space-4);
+    color: var(--color-white);
+}
+
+.footerTitle {
+    font-size: var(--font-lg);
+    font-weight: var(--font-bold);
+}
+
+.footerDescription {
+    color: var(--color-gray-400);
+    line-height: 1.8;
+    margin-bottom: var(--space-6);
+}
+
+.socialLinks {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.socialLinks a {
+    color: var(--color-gray-400);
+    transition: color var(--transition-fast);
+    font-weight: var(--font-medium);
+}
+
+.socialLinks a:hover {
+    color: var(--color-primary-light);
+}
+
+.footerLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footerLinks li {
+    margin-bottom: var(--space-3);
+}
+
+.footerLinks a,
+.footerLinks li {
+    color: var(--color-gray-400);
+    transition: color var(--transition-fast);
+}
+
+.footerLinks a:hover {
+    color: var(--color-primary-light);
+    padding-left: var(--space-2);
+}
+
+.footerBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-gray-800);
+    color: var(--color-gray-500);
+    font-size: var(--font-sm);
+}
+
+.footerLegal {
+    display: flex;
+    gap: var(--space-6);
+}
+
+.footerLegal a {
+    color: var(--color-gray-500);
+    transition: color var(--transition-fast);
+}
+
+.footerLegal a:hover {
+    color: var(--color-primary-light);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .footerGrid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-8);
+    }
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: var(--space-12) 0 var(--space-6);
+    }
+
+    .footerGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+    }
+
+    .footerBottom {
+        flex-direction: column;
+        gap: var(--space-4);
+        text-align: center;
+    }
+}

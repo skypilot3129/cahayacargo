@@ -1,0 +1,225 @@
+.officesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+.officeCard {
+    position: relative;
+    padding: var(--space-8);
+    background: white;
+    border-radius: var(--radius-2xl);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.officeCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Animated Background */
+.cardBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: var(--gradient-sunset);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.officeCard:hover .cardBackground {
+    transform: scaleX(1);
+}
+
+/* City specific colors */
+.officeCard.bandung .cardBackground {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+}
+
+.officeCard.surabaya .cardBackground {
+    background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+}
+
+.officeCard.makassar .cardBackground {
+    background: linear-gradient(135deg, #F4C542 0%, #D17B2B 100%);
+}
+
+/* City Badge */
+.cityBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg,
+            rgba(244, 197, 66, 0.15) 0%,
+            rgba(209, 123, 43, 0.15) 100%);
+    border-radius: var(--radius-full);
+    margin-bottom: var(--space-6);
+    font-weight: var(--font-bold);
+    color: var(--color-gray-900);
+    border: 1px solid rgba(209, 123, 43, 0.2);
+}
+
+.cityIcon {
+    font-size: 1.5rem;
+}
+
+.cityName {
+    font-size: var(--font-lg);
+}
+
+/* Content */
+.officeContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.addressSection {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+}
+
+.addressIcon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+}
+
+.address {
+    font-size: var(--font-sm);
+    line-height: 1.6;
+    color: var(--color-gray-700);
+    margin: 0;
+}
+
+.contactSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background: rgba(244, 197, 66, 0.05);
+    border-radius: var(--radius-lg);
+    border-left: 3px solid var(--color-primary);
+}
+
+.phoneNumber {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.phoneIcon {
+    font-size: 1.125rem;
+}
+
+.phoneNumber a {
+    font-size: var(--font-base);
+    font-weight: var(--font-semibold);
+    color: var(--color-gray-900);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.phoneNumber a:hover {
+    color: var(--color-primary);
+}
+
+/* Action Buttons */
+.actionButtons {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+}
+
+.mapsButton,
+.whatsappButton {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    font-size: var(--font-sm);
+    font-weight: var(--font-semibold);
+    text-decoration: none;
+    transition: all var(--transition-base);
+    border: 1px solid;
+}
+
+.mapsButton {
+    background: white;
+    border-color: rgba(0, 0, 0, 0.15);
+    color: var(--color-gray-700);
+}
+
+.mapsButton:hover {
+    background: var(--color-gray-50);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(209, 123, 43, 0.2);
+}
+
+.whatsappButton {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    border-color: transparent;
+    color: white;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    background: linear-gradient(135deg, #128C7E 0%, #25D366 100%);
+}
+
+.mapsButton svg,
+.whatsappButton svg {
+    flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .officesGrid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+
+    .actionButtons {
+        flex-direction: column;
+    }
+
+    .mapsButton,
+    .whatsappButton {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .officesGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
