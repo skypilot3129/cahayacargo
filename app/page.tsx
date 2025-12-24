@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button, Card } from '@/components/ui';
 import { InlineTrackingWidget } from '@/components/features/InlineTrackingWidget';
 import { VideoPhone } from '@/components/features/VideoPhone';
@@ -12,7 +13,22 @@ export default function HomePage() {
     <div className={styles.homePage}>
       {/* Hero Section - Advanced Design with Full-Width Background */}
       <section className={styles.hero}>
-        <div className={styles.heroBackground}></div>
+        <div className={styles.heroBackground}>
+          <Image
+            src="/images/hero-cargo-ship.png"
+            alt="Cargo Ship Background"
+            fill
+            priority
+            quality={85}
+            sizes="100vw"
+            style={{
+              objectFit: 'cover',
+              objectPosition: 'center right',
+            }}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdBLAh/9k="
+          />
+        </div>
         <div className={styles.heroOverlay}></div>
         <div className={styles.waveOverlay}></div>
         <div className={`container ${styles.heroContent}`}>

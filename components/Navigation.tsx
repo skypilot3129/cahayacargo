@@ -30,6 +30,8 @@ export const Navigation: React.FC = () => {
                         alt="Cahaya Cargo Express"
                         width={50}
                         height={50}
+                        priority
+                        quality={75}
                         className={styles.logoImage}
                     />
                     <span className={styles.logoText}>
