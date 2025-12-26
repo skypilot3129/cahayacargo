@@ -13,11 +13,16 @@ export const metadata: Metadata = {
   description: 'Layanan pengiriman kargo maritim profesional ke seluruh Sulawesi. Harga kompetitif, tracking real-time, dan pelayanan 24/7. Dari Surabaya, Bandung, Jakarta ke Makassar, Manado, Palu, dan kota lainnya.',
   keywords: ['cargo', 'pengiriman', 'sulawesi', 'makassar', 'manado', 'palu', 'kargo maritim', 'logistik', 'freight'],
   authors: [{ name: 'Cahaya Cargo Express' }],
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+  },
   openGraph: {
     title: 'Cahaya Cargo Express - Pengiriman Kargo Terpercaya ke Sulawesi',
     description: 'Layanan pengiriman kargo maritim profesional ke seluruh Sulawesi dengan harga kompetitif',
     type: 'website',
     locale: 'id_ID',
+    images: ['/icon.png'],
   },
 }
 
