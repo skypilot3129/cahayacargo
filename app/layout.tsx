@@ -14,8 +14,12 @@ export const metadata: Metadata = {
   keywords: ['cargo', 'pengiriman', 'sulawesi', 'makassar', 'manado', 'palu', 'kargo maritim', 'logistik', 'freight'],
   authors: [{ name: 'Cahaya Cargo Express' }],
   icons: {
-    icon: '/icon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
     apple: '/icon.png',
+    shortcut: '/favicon.ico',
   },
   openGraph: {
     title: 'Cahaya Cargo Express - Pengiriman Kargo Terpercaya ke Sulawesi',
