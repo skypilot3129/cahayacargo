@@ -159,6 +159,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {/* Article Header */}
             <header className={styles.header}>
                 <div className="container">
+                    {/* Featured Image */}
+                    {article.featuredImage && article.featuredImage !== '/images/blog/default.jpg' && (
+                        <img
+                            src={article.featuredImage}
+                            alt={article.title}
+                            className={styles.featuredImage}
+                        />
+                    )}
+
                     <div className={styles.categoryBadge}>{article.category.replace('-', ' ')}</div>
                     <h1 className={styles.title}>{article.title}</h1>
 
