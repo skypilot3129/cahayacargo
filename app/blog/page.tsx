@@ -13,25 +13,27 @@ export const metadata = {
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// Fetch articles from API (server component)
+// Fetch articles directly from Supabase (server component)
 async function getArticles() {
     try {
-        // Use relative URL for production Vercel, absolute for local dev
-        const baseUrl = process.env.VERCEL_URL
-            ? `https://${process.env.VERCEL_URL}`
-            : 'http://localhost:3000';
+        const { createClient } = await import('@supabase/supabase-js');
 
-        const res = await fetch(`${baseUrl}/api/articles`, {
-            cache: 'no-store' // Always get fresh data
-        });
+        const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
 
-        if (!res.ok) {
-            console.error('Failed to fetch articles');
+        const { data, error } = await supabase
+            .from('articles')
+            .select('*')
+            .order('published_at', { ascending: false });
+
+        if (error) {
+            console.error('Supabase error:', error);
             return [];
         }
 
-        const data = await res.json();
-        return data.articles || [];
+        return data || [];
     } catch (error) {
         console.error('Error fetching articles:', error);
         return [];
