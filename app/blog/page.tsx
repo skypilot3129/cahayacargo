@@ -13,7 +13,9 @@ export const metadata = {
 // Fetch articles from API (server component)
 async function getArticles() {
     try {
-        const res = await fetch('/api/articles', {
+        // Use absolute URL for server-side fetch
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        const res = await fetch(`${baseUrl}/api/articles`, {
             cache: 'no-store' // Always get fresh data
         });
 
