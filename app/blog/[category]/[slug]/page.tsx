@@ -158,7 +158,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         <h3>Bagikan Artikel Ini</h3>
                         <div className={styles.shareButtons}>
                             <a
-                                href={`https://wa.me/?text=${encodeURIComponent(article.title + ' - ' + typeof window !== 'undefined' ? window.location.href : '')}`}
+                                href={`https://wa.me/?text=${encodeURIComponent(article.title)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={styles.shareButton}
@@ -166,7 +166,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                 WhatsApp
                             </a>
                             <a
-                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://cahayacargoexpress.com/blog/${article.category}/${article.slug}`)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={styles.shareButton}
@@ -174,7 +174,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                                 Facebook
                             </a>
                             <a
-                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className={styles.shareButton}
