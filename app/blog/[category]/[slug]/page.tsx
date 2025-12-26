@@ -146,7 +146,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
                     {/* Tags */}
                     <div className={styles.tags}>
-                        {article.tags.map((tag) => (
+                        {article.tags.map((tag: string) => (
                             <span key={tag} className={styles.tag}>
                                 #{tag}
                             </span>
