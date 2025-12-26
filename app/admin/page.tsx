@@ -1,21 +1,64 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { articles } from '@/data/articles';
 import styles from './admin.module.css';
 
+interface ArticleStats {
+    totalArticles: number;
+    totalCategories: number;
+    totalTags: number;
+    recentArticles: any[];
+}
+
 export default function AdminDashboard() {
-    const stats = {
-        totalArticles: articles.length,
-        totalCategories: new Set(articles.map(a => a.category)).size,
-        totalTags: new Set(articles.flatMap(a => a.tags)).size,
-        recentArticles: articles.slice(0, 5),
-    };
+    const [stats, setStats] = useState<ArticleStats>({
+        totalArticles: 0,
+        totalCategories: 0,
+        totalTags: 0,
+        recentArticles: [],
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchStats() {
+            try {
+                const res = await fetch('/api/articles');
+                if (!res.ok) throw new Error('Failed to fetch');
+
+                const data = await res.json();
+                const articles = data.articles || [];
+
+                setStats({
+                    totalArticles: articles.length,
+                    totalCategories: new Set(articles.map((a: any) => a.category)).size,
+                    totalTags: new Set(articles.flatMap((a: any) => a.tags)).size,
+                    recentArticles: articles.slice(0, 5),
+                });
+            } catch (error) {
+                console.error('Error fetching stats:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchStats();
+    }, []);
 
     const handleLogout = async () => {
         await fetch('/api/auth/login', { method: 'DELETE' });
         window.location.href = '/admin/login';
     };
+
+    if (loading) {
+        return (
+            <div className={styles.dashboard}>
+                <div style={{ textAlign: 'center', padding: '4rem' }}>
+                    Loading dashboard...
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className={styles.dashboard}>
@@ -65,27 +108,35 @@ export default function AdminDashboard() {
 
                     <div className={styles.recentArticles}>
                         <h2>Artikel Terbaru</h2>
-                        <div className={styles.articleList}>
-                            {stats.recentArticles.map((article) => (
-                                <Link
-                                    key={article.slug}
-                                    href={`/admin/articles/edit/${article.slug}`}
-                                    className={styles.articleItem}
-                                >
-                                    <div>
-                                        <h3>{article.title}</h3>
-                                        <p className={styles.articleMeta}>
-                                            {article.category} • {article.publishedAt}
-                                        </p>
-                                    </div>
-                                    <span className={styles.editButton}>Edit →</span>
-                                </Link>
-                            ))}
-                        </div>
+                        {stats.recentArticles.length === 0 ? (
+                            <p style={{ textAlign: 'center', padding: '2rem' }}>
+                                Belum ada artikel. Buat artikel pertama Anda!
+                            </p>
+                        ) : (
+                            <>
+                                <div className={styles.articleList}>
+                                    {stats.recentArticles.map((article: any) => (
+                                        <Link
+                                            key={article.slug}
+                                            href={`/admin/articles/edit/${article.slug}`}
+                                            className={styles.articleItem}
+                                        >
+                                            <div>
+                                                <h3>{article.title}</h3>
+                                                <p className={styles.articleMeta}>
+                                                    {article.category} • {new Date(article.publishedAt).toLocaleDateString('id-ID')}
+                                                </p>
+                                            </div>
+                                            <span className={styles.editButton}>Edit →</span>
+                                        </Link>
+                                    ))}
+                                </div>
 
-                        <Link href="/admin/articles" className={styles.viewAllButton}>
-                            Lihat Semua Artikel →
-                        </Link>
+                                <Link href="/admin/articles" className={styles.viewAllButton}>
+                                    Lihat Semua Artikel →
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </main>
