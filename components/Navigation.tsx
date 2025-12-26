@@ -45,6 +45,9 @@ export const Navigation: React.FC = () => {
                         <Link href="/#services">Layanan</Link>
                     </li>
                     <li>
+                        <Link href="/blog">Artikel</Link>
+                    </li>
+                    <li>
                         <Link href="/about">Tentang</Link>
                     </li>
                     <li>
@@ -86,6 +89,9 @@ export const Navigation: React.FC = () => {
                 <div className={styles.mobileMenu}>
                     <Link href="/#services" onClick={() => setMobileMenuOpen(false)}>
                         Layanan
+                    </Link>
+                    <Link href="/blog" onClick={() => setMobileMenuOpen(false)}>
+                        Artikel
                     </Link>
                     <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
                         Tentang

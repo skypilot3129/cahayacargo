@@ -1,0 +1,133 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-8);
+    padding-top: 100px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-8);
+}
+
+.header h1 {
+    font-size: var(--font-4xl);
+    font-weight: var(--font-black);
+    margin-bottom: var(--space-2);
+}
+
+.header p {
+    color: var(--color-gray-600);
+    font-size: var(--font-base);
+}
+
+.newButton {
+    padding: var(--space-4) var(--space-6);
+    background: var(--gradient-sunset);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-bold);
+    transition: all 0.2s;
+}
+
+.newButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(244, 197, 66, 0.3);
+}
+
+.table {
+    background: white;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 120px;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-gray-100);
+    font-weight: var(--font-bold);
+    font-size: var(--font-sm);
+    color: var(--color-gray-700);
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 120px;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--color-gray-100);
+    transition: background 0.2s;
+}
+
+.tableRow:hover {
+    background: var(--color-gray-50);
+}
+
+.titleCell h3 {
+    font-size: var(--font-base);
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-1);
+}
+
+.titleCell p {
+    font-size: var(--font-sm);
+    color: var(--color-gray-600);
+    margin: 0;
+}
+
+.actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+}
+
+.actions a,
+.deleteButton {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    font-size: var(--font-base);
+}
+
+.actions a:hover {
+    border-color: var(--color-primary);
+    background: rgba(244, 197, 66, 0.1);
+}
+
+.deleteButton:hover {
+    border-color: rgb(239, 68, 68);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 768px) {
+
+    .tableHeader,
+    .tableRow {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+    }
+
+    .tableHeader div:not(:first-child) {
+        display: none;
+    }
+
+    .tableRow>div:nth-child(2)::before {
+        content: 'Kategori: ';
+        font-weight: bold;
+    }
+
+    .tableRow>div:nth-child(3)::before {
+        content: 'Tanggal: ';
+        font-weight: bold;
+    }
+}
