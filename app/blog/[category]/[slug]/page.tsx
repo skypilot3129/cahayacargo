@@ -192,7 +192,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     <div className="container">
                         <h2 className={styles.relatedTitle}>Artikel Terkait</h2>
                         <div className={styles.relatedGrid}>
-                            {relatedArticles.map((relatedArticle) => (
+                            {relatedArticles.map((relatedArticle: any) => (
                                 <BlogCard key={relatedArticle.slug} article={relatedArticle} />
                             ))}
                         </div>

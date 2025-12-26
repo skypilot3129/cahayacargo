@@ -82,7 +82,7 @@ export default async function BlogPage() {
                     <div className="container">
                         <h2 className={styles.sectionTitle}>Artikel Pilihan</h2>
                         <div className={styles.featuredGrid}>
-                            {featuredArticles.map((article) => (
+                            {featuredArticles.map((article: any) => (
                                 <BlogCard key={article.slug} article={article} />
                             ))}
                         </div>
@@ -100,7 +100,7 @@ export default async function BlogPage() {
                         </p>
                     ) : (
                         <div className={styles.articlesGrid}>
-                            {articles.map((article) => (
+                            {articles.map((article: any) => (
                                 <BlogCard key={article.slug} article={article} />
                             ))}
                         </div>
