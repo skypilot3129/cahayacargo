@@ -33,7 +33,25 @@ async function getArticles() {
             return [];
         }
 
-        return data || [];
+        // Transform flat structure to match expected nested structure
+        const transformedData = (data || []).map((article: any) => ({
+            ...article,
+            publishedAt: article.published_at,
+            readingTime: article.reading_time,
+            featuredImage: article.featured_image,
+            author: {
+                name: article.author_name,
+                role: article.author_role,
+                avatar: article.author_avatar,
+            },
+            seo: {
+                metaTitle: article.meta_title,
+                metaDescription: article.meta_description,
+                keywords: article.keywords,
+            }
+        }));
+
+        return transformedData;
     } catch (error) {
         console.error('Error fetching articles:', error);
         return [];
