@@ -1,126 +1,150 @@
-import { NextResponse } from 'next/server';
-import { writeFile, readFile } from 'fs/promises';
-import { join } from 'path';
-import { articles } from '@/data/articles';
-
-// Helper to generate TypeScript code for articles array
-function generateArticlesCode(articlesArray: any[]) {
-    const articlesCode = articlesArray.map(article => {
-        const contentEscaped = article.content.replace(/`/g, '\\`').replace(/\$/g, '\\$');
-
-        return `  {
-    slug: '${article.slug}',
-    title: '${article.title.replace(/'/g, "\\'")}',
-    excerpt: '${article.excerpt.replace(/'/g, "\\'")}',
-    content: \`${contentEscaped}\`,
-    category: '${article.category}',
-    tags: ${JSON.stringify(article.tags)},
-    author: {
-      name: '${article.author.name}',
-      role: '${article.author.role}',
-      avatar: '${article.author.avatar}',
-    },
-    publishedAt: '${article.publishedAt}',
-    ${article.updatedAt ? `updatedAt: '${article.updatedAt}',` : ''}
-    featuredImage: '${article.featuredImage}',
-    readingTime: ${article.readingTime},
-    seo: {
-      metaTitle: '${article.seo.metaTitle.replace(/'/g, "\\'")}',
-      metaDescription: '${article.seo.metaDescription.replace(/'/g, "\\'")}',
-      keywords: ${JSON.stringify(article.seo.keywords)},
-    },
-  }`;
-    }).join(',\n');
-
-    return `import { Article } from './types';
-
-export const articles: Article[] = [
-${articlesCode}
-];
-
-// Helper functions
-export function getArticleBySlug(slug: string): Article | undefined {
-  return articles.find(article => article.slug === slug);
-}
-
-export function getArticlesByCategory(category: Article['category']): Article[] {
-  return articles.filter(article => article.category === category);
-}
-
-export function getRelatedArticles(currentSlug: string, limit: number = 3): Article[] {
-  const current = getArticleBySlug(currentSlug);
-  if (!current) return [];
-
-  return articles
-    .filter(article => 
-      article.slug !== currentSlug && 
-      article.category === current.category
-    )
-    .slice(0, limit);
-}
-
-export function searchArticles(query: string): Article[] {
-  const lowerQuery = query.toLowerCase();
-  return articles.filter(article =>
-    article.title.toLowerCase().includes(lowerQuery) ||
-    article.excerpt.toLowerCase().includes(lowerQuery) ||
-    article.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
-  );
-}
-`;
-}
+import { NextResponse } from 'next/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 // GET all articles
-export async function GET() {
-    try {
-        return NextResponse.json({ articles });
-    } catch (error) {
-        return NextResponse.json(
-            { error: 'Failed to fetch articles' },
-            { status: 500 }
-        );
+export async function GET(request: Request) {
+  try {
+    const supabase = createAdminClient()
+    const { searchParams } = new URL(request.url)
+
+    const category = searchParams.get('category')
+    const search = searchParams.get('search')
+    const limit = searchParams.get('limit')
+
+    let query = supabase
+      .from('articles')
+      .select('*')
+      .order('published_at', { ascending: false })
+
+    // Filter by category if provided
+    if (category) {
+      query = query.eq('category', category)
     }
+
+    // Search if query provided
+    if (search) {
+      query = query.or(`title.ilike.%${search}%,excerpt.ilike.%${search}%`)
+    }
+
+    // Limit results if specified
+    if (limit) {
+      query = query.limit(parseInt(limit))
+    }
+
+    const { data: articles, error } = await query
+
+    if (error) {
+      console.error('Error fetching articles:', error)
+      return NextResponse.json(
+        { error: 'Failed to fetch articles' },
+        { status: 500 }
+      )
+    }
+
+    // Transform database format to application format
+    const formattedArticles = articles.map(article => ({
+      slug: article.slug,
+      title: article.title,
+      excerpt: article.excerpt,
+      content: article.content,
+      category: article.category,
+      tags: article.tags,
+      featuredImage: article.featured_image,
+      readingTime: article.reading_time,
+      author: {
+        name: article.author_name,
+        role: article.author_role,
+        avatar: article.author_avatar,
+      },
+      publishedAt: article.published_at,
+      updatedAt: article.updated_at,
+      seo: {
+        metaTitle: article.meta_title || article.title,
+        metaDescription: article.meta_description || article.excerpt,
+        keywords: article.keywords || [],
+      },
+    }))
+
+    return NextResponse.json({ articles: formattedArticles })
+  } catch (error) {
+    console.error('Error in GET /api/articles:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch articles' },
+      { status: 500 }
+    )
+  }
 }
 
 // POST new article
 export async function POST(request: Request) {
-    try {
-        const newArticle = await request.json();
+  try {
+    const supabase = createAdminClient()
+    const body = await request.json()
 
-        // Validate required fields
-        if (!newArticle.title || !newArticle.slug || !newArticle.content) {
-            return NextResponse.json(
-                { error: 'Missing required fields' },
-                { status: 400 }
-            );
-        }
-
-        // Check if slug already exists
-        if (articles.some(a => a.slug === newArticle.slug)) {
-            return NextResponse.json(
-                { error: 'Article with this slug already exists' },
-                { status: 409 }
-            );
-        }
-
-        // Add new article
-        const updatedArticles = [...articles, newArticle];
-
-        // Write to file
-        const filePath = join(process.cwd(), 'data', 'articles', 'index.ts');
-        const fileContent = generateArticlesCode(updatedArticles);
-        await writeFile(filePath, fileContent, 'utf-8');
-
-        return NextResponse.json({
-            success: true,
-            article: newArticle
-        }, { status: 201 });
-
-    } catch (error) {
-        console.error('Error creating article:', error);
-        return NextResponse.json(
-            { error: 'Failed to create article' },
-            { status: 500 }
-        );
+    // Validate required fields
+    if (!body.title || !body.slug || !body.content) {
+      return NextResponse.json(
+        { error: 'Missing required fields: title, slug, content' },
+        { status: 400 }
+      )
     }
+
+    // Check if slug already exists
+    const { data: existing } = await supabase
+      .from('articles')
+      .select('slug')
+      .eq('slug', body.slug)
+      .single()
+
+    if (existing) {
+      return NextResponse.json(
+        { error: 'Article with this slug already exists' },
+        { status: 409 }
+      )
+    }
+
+    // Transform to database format
+    const article = {
+      slug: body.slug,
+      title: body.title,
+      excerpt: body.excerpt,
+      content: body.content,
+      category: body.category,
+      tags: body.tags,
+      featured_image: body.featuredImage || '/images/blog/default.jpg',
+      reading_time: body.readingTime,
+      author_name: body.author.name,
+      author_role: body.author.role,
+      author_avatar: body.author.avatar,
+      meta_title: body.seo.metaTitle,
+      meta_description: body.seo.metaDescription,
+      keywords: body.seo.keywords,
+      published_at: body.publishedAt || new Date().toISOString(),
+    }
+
+    const { data, error } = await supabase
+      .from('articles')
+      .insert(article)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error creating article:', error)
+      return NextResponse.json(
+        { error: 'Failed to create article' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json(
+      { success: true, article: data },
+      { status: 201 }
+    )
+  } catch (error) {
+    console.error('Error in POST /api/articles:', error)
+    return NextResponse.json(
+      { error: 'Failed to create article' },
+      { status: 500 }
+    )
+  }
 }
