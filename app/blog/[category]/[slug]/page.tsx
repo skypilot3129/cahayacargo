@@ -22,17 +22,41 @@ interface ArticlePageProps {
 // Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-// Fetch article from API
+// Fetch article from Supabase
 async function getArticle(slug: string) {
     try {
-        const res = await fetch(`http://localhost:3000/api/articles/${slug}`, {
-            cache: 'no-store'
-        });
+        const { createClient } = await import('@supabase/supabase-js');
 
-        if (!res.ok) return null;
+        const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
 
-        const data = await res.json();
-        return data.article;
+        const { data, error } = await supabase
+            .from('articles')
+            .select('*')
+            .eq('slug', slug)
+            .single();
+
+        if (error || !data) return null;
+
+        // Transform to match expected structure
+        return {
+            ...data,
+            publishedAt: data.published_at,
+            readingTime: data.reading_time,
+            featuredImage: data.featured_image,
+            author: {
+                name: data.author_name,
+                role: data.author_role,
+                avatar: data.author_avatar,
+            },
+            seo: {
+                metaTitle: data.meta_title,
+                metaDescription: data.meta_description,
+                keywords: data.keywords,
+            }
+        };
     } catch (error) {
         console.error('Error fetching article:', error);
         return null;
@@ -42,16 +66,40 @@ async function getArticle(slug: string) {
 // Fetch related articles
 async function getRelatedArticles(category: string, currentSlug: string) {
     try {
-        const res = await fetch(`http://localhost:3000/api/articles?category=${category}`, {
-            cache: 'no-store'
-        });
+        const { createClient } = await import('@supabase/supabase-js');
 
-        if (!res.ok) return [];
+        const supabase = createClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        );
 
-        const data = await res.json();
-        return (data.articles || [])
-            .filter((a: any) => a.slug !== currentSlug)
-            .slice(0, 3);
+        const { data, error } = await supabase
+            .from('articles')
+            .select('*')
+            .eq('category', category)
+            .neq('slug', currentSlug)
+            .order('published_at', { ascending: false })
+            .limit(3);
+
+        if (error || !data) return [];
+
+        // Transform to match expected structure
+        return data.map((article: any) => ({
+            ...article,
+            publishedAt: article.published_at,
+            readingTime: article.reading_time,
+            featuredImage: article.featured_image,
+            author: {
+                name: article.author_name,
+                role: article.author_role,
+                avatar: article.author_avatar,
+            },
+            seo: {
+                metaTitle: article.meta_title,
+                metaDescription: article.meta_description,
+                keywords: article.keywords,
+            }
+        }));
     } catch (error) {
         console.error('Error fetching related articles:', error);
         return [];
