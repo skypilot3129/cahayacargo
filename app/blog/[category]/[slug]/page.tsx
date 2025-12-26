@@ -2,9 +2,9 @@ import React from 'react';
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { marked } from 'marked';
-import { articles, getArticleBySlug, getRelatedArticles } from '@/data/articles';
 import { BlogCard } from '../../components/BlogCard';
 import styles from './article.module.css';
+import { notFound } from 'next/navigation';
 
 // Configure marked for better markdown rendering
 marked.setOptions({
@@ -19,19 +19,48 @@ interface ArticlePageProps {
     }>;
 }
 
-// Force dynamic rendering to handle new articles
+// Force dynamic rendering
 export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-    return articles.map((article) => ({
-        category: article.category,
-        slug: article.slug,
-    }));
+// Fetch article from API
+async function getArticle(slug: string) {
+    try {
+        const res = await fetch(`http://localhost:3000/api/articles/${slug}`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) return null;
+
+        const data = await res.json();
+        return data.article;
+    } catch (error) {
+        console.error('Error fetching article:', error);
+        return null;
+    }
+}
+
+// Fetch related articles
+async function getRelatedArticles(category: string, currentSlug: string) {
+    try {
+        const res = await fetch(`http://localhost:3000/api/articles?category=${category}`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) return [];
+
+        const data = await res.json();
+        return (data.articles || [])
+            .filter((a: any) => a.slug !== currentSlug)
+            .slice(0, 3);
+    } catch (error) {
+        console.error('Error fetching related articles:', error);
+        return [];
+    }
 }
 
 export async function generateMetadata({ params }: ArticlePageProps): Promise<Metadata> {
     const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const article = await getArticle(slug);
 
     if (!article) {
         return {
@@ -55,17 +84,14 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
 }
 
 export default async function ArticlePage({ params }: ArticlePageProps) {
-    const { slug } = await params;
-    const article = getArticleBySlug(slug);
+    const { slug, category } = await params;
+    const article = await getArticle(slug);
 
     if (!article) {
-        return <div>Article not found</div>;
+        notFound();
     }
 
-    const relatedArticles = getRelatedArticles(article.slug);
-
-    // Convert markdown to HTML
-    const htmlContent = marked(article.content);
+    const relatedArticles = await getRelatedArticles(article.category, slug);
 
     return (
         <div className={styles.articlePage}>
@@ -113,60 +139,49 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             {/* Article Content */}
             <article className={styles.content}>
                 <div className="container">
-                    <div className={styles.contentGrid}>
-                        <div className={styles.mainContent}>
-                            <div
-                                className={styles.prose}
-                                dangerouslySetInnerHTML={{ __html: htmlContent }}
-                            />
+                    <div
+                        className={styles.prose}
+                        dangerouslySetInnerHTML={{ __html: marked(article.content) }}
+                    />
 
-                            {/* Tags */}
-                            <div className={styles.tags}>
-                                <strong>Tags:</strong>
-                                {article.tags.map((tag, index) => (
-                                    <span key={index} className={styles.tag}>{tag}</span>
-                                ))}
-                            </div>
+                    {/* Tags */}
+                    <div className={styles.tags}>
+                        {article.tags.map((tag) => (
+                            <span key={tag} className={styles.tag}>
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
 
-                            {/* Share */}
-                            <div className={styles.share}>
-                                <h3>Bagikan Artikel</h3>
-                                <div className={styles.shareButtons}>
-                                    <a
-                                        href={`https://wa.me/?text=${encodeURIComponent(article.title + ' - ' + 'https://cahayacargoexpress.com/blog/' + article.category + '/' + article.slug)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.shareButton}
-                                    >
-                                        WhatsApp
-                                    </a>
-                                    <a
-                                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent('https://cahayacargoexpress.com/blog/' + article.category + '/' + article.slug)}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className={styles.shareButton}
-                                    >
-                                        Facebook
-                                    </a>
-                                </div>
-                            </div>
+                    {/* Share Buttons */}
+                    <div className={styles.share}>
+                        <h3>Bagikan Artikel Ini</h3>
+                        <div className={styles.shareButtons}>
+                            <a
+                                href={`https://wa.me/?text=${encodeURIComponent(article.title + ' - ' + typeof window !== 'undefined' ? window.location.href : '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.shareButton}
+                            >
+                                WhatsApp
+                            </a>
+                            <a
+                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.shareButton}
+                            >
+                                Facebook
+                            </a>
+                            <a
+                                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(article.title)}&url=${encodeURIComponent(typeof window !== 'undefined' ? window.location.href : '')}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={styles.shareButton}
+                            >
+                                Twitter
+                            </a>
                         </div>
-
-                        {/* Sidebar */}
-                        <aside className={styles.sidebar}>
-                            <div className={styles.sidebarCard}>
-                                <h3>Butuh Bantuan?</h3>
-                                <p>Hubungi tim kami untuk konsultasi gratis</p>
-                                <a
-                                    href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman%20cargo"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={styles.ctaButton}
-                                >
-                                    💬 Chat WhatsApp
-                                </a>
-                            </div>
-                        </aside>
                     </div>
                 </div>
             </article>
@@ -184,6 +199,24 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     </div>
                 </section>
             )}
+
+            {/* CTA */}
+            <section className={styles.cta}>
+                <div className="container">
+                    <div className={styles.ctaContent}>
+                        <h2>Siap Kirim Kargo Anda?</h2>
+                        <p>Dapatkan penawaran terbaik dan konsultasi gratis dari tim ahli kami</p>
+                        <a
+                            href="https://wa.me/6283817523403?text=Halo,%20saya%20tertarik%20mengirim%20kargo"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.ctaButton}
+                        >
+                            Hubungi Kami Sekarang
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }

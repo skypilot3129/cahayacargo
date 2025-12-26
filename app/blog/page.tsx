@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { articles } from '@/data/articles';
 import { categoryNames } from '@/data/articles/types';
 import { BlogCard } from './components/BlogCard';
 import styles from './blog.module.css';
@@ -11,10 +10,31 @@ export const metadata = {
     keywords: ['blog cargo', 'artikel pengiriman', 'panduan ekspedisi', 'tips cargo'],
 };
 
-export default function BlogPage() {
+// Fetch articles from API (server component)
+async function getArticles() {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL ? 'http://localhost:3000' : ''}/api/articles`, {
+            cache: 'no-store' // Always get fresh data
+        });
+
+        if (!res.ok) {
+            console.error('Failed to fetch articles');
+            return [];
+        }
+
+        const data = await res.json();
+        return data.articles || [];
+    } catch (error) {
+        console.error('Error fetching articles:', error);
+        return [];
+    }
+}
+
+export default async function BlogPage() {
+    const articles = await getArticles();
+
     // Get recent articles (3 featured)
     const featuredArticles = articles.slice(0, 3);
-    const recentArticles = articles.slice(3);
 
     return (
         <div className={styles.blogPage}>
@@ -74,11 +94,17 @@ export default function BlogPage() {
             <section className={styles.articles}>
                 <div className="container">
                     <h2 className={styles.sectionTitle}>Semua Artikel</h2>
-                    <div className={styles.articlesGrid}>
-                        {articles.map((article) => (
-                            <BlogCard key={article.slug} article={article} />
-                        ))}
-                    </div>
+                    {articles.length === 0 ? (
+                        <p style={{ textAlign: 'center', padding: '2rem' }}>
+                            Belum ada artikel yang dipublikasikan.
+                        </p>
+                    ) : (
+                        <div className={styles.articlesGrid}>
+                            {articles.map((article) => (
+                                <BlogCard key={article.slug} article={article} />
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 
