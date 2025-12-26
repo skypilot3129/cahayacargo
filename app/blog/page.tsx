@@ -10,6 +10,9 @@ export const metadata = {
     keywords: ['blog cargo', 'artikel pengiriman', 'panduan ekspedisi', 'tips cargo'],
 };
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 // Fetch articles from API (server component)
 async function getArticles() {
     try {
