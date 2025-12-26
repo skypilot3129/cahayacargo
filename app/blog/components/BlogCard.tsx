@@ -15,9 +15,17 @@ export const BlogCard: React.FC<BlogCardProps> = ({ article }) => {
         <Link href={`/blog/${article.category}/${article.slug}`} className={styles.card}>
             <div className={styles.imageContainer}>
                 <div className={styles.categoryBadge}>{article.category.replace('-', ' ')}</div>
-                <div className={styles.imagePlaceholder}>
-                    <span className={styles.imageIcon}>📰</span>
-                </div>
+                {article.featuredImage && article.featuredImage !== '/images/blog/default.jpg' ? (
+                    <img
+                        src={article.featuredImage}
+                        alt={article.title}
+                        className={styles.image}
+                    />
+                ) : (
+                    <div className={styles.imagePlaceholder}>
+                        <span className={styles.imageIcon}>📰</span>
+                    </div>
+                )}
             </div>
 
             <div className={styles.content}>

@@ -34,21 +34,6 @@
     inset: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg,
-            rgba(244, 197, 66, 0.15) 0%,
-            rgba(209, 123, 43, 0.15) 100%);
-}
-
-.imageIcon {
-    font-size: 4rem;
-    opacity: 0.5;
-}
-
-.categoryBadge {
-    position: absolute;
-    top: var(--space-4);
-    left: var(--space-4);
     background: var(--gradient-sunset);
     color: white;
     padding: 0.5rem 1rem;

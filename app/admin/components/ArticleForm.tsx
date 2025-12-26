@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { categoryNames } from '@/data/articles/types';
+import { ImageUpload } from './ImageUpload';
 import styles from './article-form.module.css';
 
 interface ArticleFormProps {
@@ -215,6 +216,15 @@ export default function ArticleForm({ initialData, isEdit = false }: ArticleForm
                             placeholder="pengiriman cargo, sulawesi, panduan"
                         />
                     </div>
+                </section>
+
+                {/* Featured Image */}
+                <section className={styles.section}>
+                    <ImageUpload
+                        currentImage={formData.featuredImage}
+                        onImageChange={(url) => setFormData(prev => ({ ...prev, featuredImage: url || '/images/blog/default.jpg' }))}
+                        articleSlug={formData.slug || 'new-article'}
+                    />
                 </section>
 
                 {/* Author Info */}
