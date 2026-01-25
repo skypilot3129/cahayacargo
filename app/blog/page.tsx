@@ -147,7 +147,7 @@ export default async function BlogPage() {
                             Tim ahli kami siap membantu Anda menemukan solusi pengiriman terbaik
                         </p>
                         <a
-                            href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman%20cargo"
+                            href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman%20cargo"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={styles.ctaButton}

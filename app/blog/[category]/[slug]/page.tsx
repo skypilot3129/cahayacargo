@@ -282,7 +282,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         <h2>Siap Kirim Kargo Anda?</h2>
                         <p>Dapatkan penawaran terbaik dan konsultasi gratis dari tim ahli kami</p>
                         <a
-                            href="https://wa.me/6283817523403?text=Halo,%20saya%20tertarik%20mengirim%20kargo"
+                            href="https://wa.me/628132974097?text=Halo,%20saya%20tertarik%20mengirim%20kargo"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={styles.ctaButton}

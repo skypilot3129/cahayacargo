@@ -32,16 +32,34 @@
 .socialLinks {
     display: flex;
     gap: var(--space-4);
+    flex-wrap: wrap;
 }
 
 .socialLinks a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--color-gray-400);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
     font-weight: var(--font-medium);
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .socialLinks a:hover {
-    color: var(--color-primary-light);
+    color: var(--color-white);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.socialLinks a svg {
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+}
+
+.socialLinks a:hover svg {
+    transform: scale(1.1);
 }
 
 .footerLinks {

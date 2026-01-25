@@ -54,7 +54,7 @@ export const Navigation: React.FC = () => {
                         <Link href="/track">Lacak Kiriman</Link>
                     </li>
                     <li>
-                        <Link href="https://wa.me/6283817523403" target="_blank" rel="noopener noreferrer">Hubungi</Link>
+                        <Link href="https://wa.me/628132974097" target="_blank" rel="noopener noreferrer">Hubungi</Link>
                     </li>
                 </ul>
 
@@ -99,7 +99,7 @@ export const Navigation: React.FC = () => {
                     <Link href="/track" onClick={() => setMobileMenuOpen(false)}>
                         Lacak Kiriman
                     </Link>
-                    <Link href="https://wa.me/6283817523403" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href="https://wa.me/628132974097" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}>
                         Hubungi
                     </Link>
                     <div className={styles.mobileCTA}>
@@ -119,8 +119,8 @@ export const Navigation: React.FC = () => {
                         <a href="https://wa.me/6281357979159" className={styles.contactLink}>
                             📱 WhatsApp: 0813-5797-9159
                         </a>
-                        <a href="https://wa.me/6283817523403" className={styles.contactLink}>
-                            📱 WhatsApp: 0838-1752-3403
+                        <a href="https://wa.me/628132974097" className={styles.contactLink}>
+                            📱 WhatsApp: 0813-2974-097
                         </a>
                     </div>
                 </div>

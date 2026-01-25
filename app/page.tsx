@@ -75,7 +75,7 @@ export default function HomePage() {
               </a>
 
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20mau%20tanya%20tentang%20pengiriman%20cargo%20ke%20Sulawesi"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20mau%20tanya%20tentang%20pengiriman%20cargo%20ke%20Sulawesi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.whatsappButton}
@@ -85,7 +85,7 @@ export default function HomePage() {
                 </svg>
                 <div className={styles.buttonContent}>
                   <span className={styles.buttonLabel}>Hubungi Sales 2</span>
-                  <span className={styles.buttonNumber}>0838-1752-3403</span>
+                  <span className={styles.buttonNumber}>0813-2974-097</span>
                 </div>
               </a>
             </div>
@@ -137,7 +137,7 @@ export default function HomePage() {
                 aman dan tepat waktu ke seluruh Sulawesi.
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20Layanan%20Pengiriman%20Trucking"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20Layanan%20Pengiriman%20Trucking"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.serviceWaButton}
@@ -157,7 +157,7 @@ export default function HomePage() {
                 dengan handling khusus dan dokumentasi lengkap.
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20Layanan%20Cargo%20Retail%20%26%20Project"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20Layanan%20Cargo%20Retail%20%26%20Project"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.serviceWaButton}
@@ -177,7 +177,7 @@ export default function HomePage() {
                 melindungi barang Anda selama pengiriman.
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20Jasa%20Packing"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20Jasa%20Packing"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.serviceWaButton}
@@ -197,7 +197,7 @@ export default function HomePage() {
                 termasuk packing, loading, dan unpacking.
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20Jasa%20Pindahan"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20Jasa%20Pindahan"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.serviceWaButton}
@@ -217,7 +217,7 @@ export default function HomePage() {
                 delivery cepat dan reliable.
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20Express%20Logistic"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20Express%20Logistic"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.serviceWaButton}
@@ -314,7 +314,7 @@ export default function HomePage() {
                 Untuk informasi detail rute, jadwal keberangkatan, dan harga terkini
               </p>
               <a
-                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20tanya%20tentang%20rute%20dan%20harga%20pengiriman"
+                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20tanya%20tentang%20rute%20dan%20harga%20pengiriman"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.infoButton}
@@ -531,7 +531,7 @@ export default function HomePage() {
           {/* CTA Button */}
           <div className={styles.howItWorksCTA}>
             <a
-              href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman"
+              href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.ctaWhatsapp}
@@ -583,7 +583,7 @@ export default function HomePage() {
           </p>
           <div className={styles.ctaButtons}>
             <a
-              href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman%20kargo"
+              href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20pengiriman%20kargo"
               target="_blank"
               rel="noopener noreferrer"
             >

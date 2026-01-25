@@ -228,7 +228,7 @@ export default function AboutPage() {
 
                         <div className={styles.ctaButtons}>
                             <a
-                                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20layanan%20Cahaya%20Cargo"
+                                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20konsultasi%20tentang%20layanan%20Cahaya%20Cargo"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

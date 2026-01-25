@@ -114,7 +114,7 @@ export default function TrackPage() {
                                 </Button>
                             </Link>
                             <a
-                                href="https://wa.me/6283817523403?text=Halo,%20saya%20ingin%20bertanya%20tentang%20status%20pengiriman"
+                                href="https://wa.me/628132974097?text=Halo,%20saya%20ingin%20bertanya%20tentang%20status%20pengiriman"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -129,8 +129,8 @@ export default function TrackPage() {
                             <div className={styles.contactIcon}>📞</div>
                             <div className={styles.contactInfo}>
                                 <div className={styles.contactLabel}>Butuh bantuan sekarang?</div>
-                                <a href="https://wa.me/6283817523403" className={styles.contactNumber}>
-                                    0838-1752-3403 (WhatsApp)
+                                <a href="https://wa.me/628132974097" className={styles.contactNumber}>
+                                    0813-2974-097 (WhatsApp)
                                 </a>
                             </div>
                         </div>

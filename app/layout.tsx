@@ -4,6 +4,7 @@ import './globals.css'
 import { Navigation } from '@/components/Navigation'
 import { Footer } from '@/components/Footer'
 import { FloatingCTA } from '@/components/features/FloatingCTA'
+import { FloatingSocialBar } from '@/components/features/FloatingSocialBar'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -78,6 +79,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <FloatingCTA />
+        <FloatingSocialBar />
 
       </body>
     </html>

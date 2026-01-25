@@ -1,0 +1,120 @@
+.floatingSocialBar {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 999;
+    padding: 12px 8px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px 0 0 16px;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+    animation: slideInRight 0.5s ease-out;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateY(-50%) translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(-50%) translateX(0);
+        opacity: 1;
+    }
+}
+
+.socialIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.socialIcon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.socialIcon:hover::before {
+    opacity: 1;
+}
+
+.socialIcon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.socialIcon:active {
+    transform: scale(0.95);
+}
+
+.socialIcon svg {
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s ease;
+}
+
+.socialIcon:hover svg {
+    transform: rotate(5deg) scale(1.1);
+}
+
+/* Specific colors for each platform on hover */
+.socialIcon:nth-child(1):hover {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+.socialIcon:nth-child(2):hover {
+    background: linear-gradient(135deg, #FF0000, #CC0000);
+}
+
+.socialIcon:nth-child(3):hover {
+    background: linear-gradient(135deg, #00f2ea, #ff0050);
+}
+
+.socialIcon:nth-child(4):hover {
+    background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+}
+
+.socialIcon:nth-child(5):hover {
+    background: linear-gradient(135deg, #4267B2, #365899);
+}
+
+/* Hide on desktop, show only on mobile/tablet */
+@media (min-width: 1025px) {
+    .floatingSocialBar {
+        display: none;
+    }
+}
+
+/* Responsive sizing for smaller screens */
+@media (max-width: 480px) {
+    .floatingSocialBar {
+        padding: 8px 6px;
+        gap: 6px;
+    }
+
+    .socialIcon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .socialIcon svg {
+        width: 20px;
+        height: 20px;
+    }
+}
